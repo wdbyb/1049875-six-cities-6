@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов» [![Build status][travis-image]][travis-url]
 
 * Студент: [Юрий Винивитин](https://up.htmlacademy.ru/react/6/user/1049875).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Федин](https://up.htmlacademy.ru/react/6/user/1599231).
 
 ---
 
