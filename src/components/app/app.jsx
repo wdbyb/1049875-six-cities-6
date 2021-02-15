@@ -3,17 +3,15 @@ import PropTypes from 'prop-types';
 import MainScreenComponent from '../main-screen/main-screen.jsx';
 
 const App = (props) => {
-  console.log(props);
-
   return (
     <>
-      <MainScreenComponent name={props.name} />
+      <MainScreenComponent cardsCount={props.cardsCount} />
     </>
   );
 };
 
-// App.propTypes = {
-//   props: PropTypes.array.isRequired,
-// };
+App.propTypes = {
+  cardsCount: PropTypes.array.isRequired,
+};
 
 export default App;

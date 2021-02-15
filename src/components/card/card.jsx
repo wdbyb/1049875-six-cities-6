@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const CardComponent = (props) => {
+const CardComponent = () => {
   return (
     <>
       <article className="cities__place-card place-card">
@@ -28,7 +27,7 @@ const CardComponent = (props) => {
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
-              <span style={{width: "80%"}}></span>
+              <span style={{width: `80%`}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
@@ -41,9 +40,5 @@ const CardComponent = (props) => {
     </>
   );
 };
-
-// CardComponent.propTypes = {
-//   cardsCount: PropTypes.array.isRequired,
-// };
 
 export default CardComponent;
