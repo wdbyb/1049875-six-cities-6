@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MainScreenComponent from '../main-screen/main-screen.jsx';
+import MainScreen from '../main-screen/main-screen.jsx';
 
 const App = (props) => {
   return (
-    <>
-      <MainScreenComponent cardsCount={props.cardsCount} />
-    </>
+    <MainScreen cardsCount={props.cardsCount} />
   );
 };
 

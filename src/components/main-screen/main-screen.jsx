@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CardComponent from '../card/card.jsx';
+import Card from '../card/card.jsx';
 
-const cardComponent = CardComponent;
-
-const MainScreenComponent = (props) => {
+const MainScreen = (props) => {
   const {cardsCount} = props;
 
   return (
@@ -96,7 +94,7 @@ const MainScreenComponent = (props) => {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  {cardsCount.map(() => cardComponent())}
+                  {cardsCount.map((i) => <Card key={i} />)}
                 </div>
               </section>
               <div className="cities__right-section">
@@ -110,8 +108,8 @@ const MainScreenComponent = (props) => {
   );
 };
 
-MainScreenComponent.propTypes = {
+MainScreen.propTypes = {
   cardsCount: PropTypes.array.isRequired,
 };
 
-export default MainScreenComponent;
+export default MainScreen;

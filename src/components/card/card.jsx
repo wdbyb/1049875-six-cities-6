@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CardComponent = () => {
+const Card = () => {
   return (
     <>
       <article className="cities__place-card place-card">
@@ -41,4 +41,4 @@ const CardComponent = () => {
   );
 };
 
-export default CardComponent;
+export default Card;
