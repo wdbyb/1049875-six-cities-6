@@ -2,7 +2,6 @@ import React from 'react';
 
 const Card = (props) => {
   const {offer} = props;
-  console.log(offer);
 
   return (
     <>
