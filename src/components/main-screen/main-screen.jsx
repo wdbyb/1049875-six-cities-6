@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from '../card/card.jsx';
 
 const MainScreen = (props) => {
-  const {cardsCount} = props;
+  const {offers} = props;
 
   return (
     <>
@@ -94,7 +94,7 @@ const MainScreen = (props) => {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  {cardsCount.map((i) => <Card key={i} />)}
+                  {offers.map((offer) => <Card key={offer.id} offer={offer}/>)}
                 </div>
               </section>
               <div className="cities__right-section">
@@ -109,7 +109,7 @@ const MainScreen = (props) => {
 };
 
 MainScreen.propTypes = {
-  cardsCount: PropTypes.array.isRequired,
+  offers: PropTypes.array.isRequired,
 };
 
 export default MainScreen;

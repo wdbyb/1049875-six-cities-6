@@ -8,13 +8,13 @@ import Room from '../room/room.jsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 
 const App = (props) => {
-  const {cardsCount} = props;
+  const {offers} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainScreen cardsCount={cardsCount} />
+          <MainScreen offers={offers} />
         </Route>
         <Route exact path="/login">
           <Login />
