@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import {foos} from '../props/offersPropTypes.js';
+import * as types from '../../props/offersPropTypes.js';
 
 const Favorites = (props) => {
   const {offers} = props;
@@ -49,7 +49,7 @@ const Favorites = (props) => {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {offers.map((offer, i) => (
+                    {offers.map((offer) => (
                       <article className="favorites__card place-card" key={offer.id}>
                         <div className="favorites__image-wrapper place-card__image-wrapper">
                           <a href="#">
@@ -112,44 +112,7 @@ const Favorites = (props) => {
 };
 
 Favorites.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    bedrooms: PropTypes.number.isRequired,
-    city: PropTypes.shape({
-      location: PropTypes.shape({
-        latitude: PropTypes.number.isRequired,
-        longitude: PropTypes.number.isRequired,
-        zoom: PropTypes.number.isRequired,
-      }),
-      name: PropTypes.string.isRequired,
-    }),
-    description: PropTypes.string.isRequired,
-    goods: PropTypes.arrayOf(
-      PropTypes.string.isRequired
-    ),
-    host: PropTypes.shape({
-      avatarUrl: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      isPro: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
-    id: PropTypes.number.isRequired,
-    images: PropTypes.arrayOf(
-      PropTypes.string.isRequired,
-    ),
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    location: PropTypes.shape({
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
-      zoom: PropTypes.number.isRequired,
-    }),
-    maxAdults: PropTypes.number.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
-  })).isRequired,
+  offers: PropTypes.arrayOf(types.offer).isRequired,
 };
 
 export default Favorites;

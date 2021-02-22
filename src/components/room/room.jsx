@@ -1,6 +1,9 @@
 import React from 'react';
 
 const Room = (props) => {
+  const {offers, match} = props;
+  const offer = offers.find((item) => item.id === parseInt(match.params.id));
+  console.log(offer);
 
   return (
     <>
@@ -59,11 +62,11 @@ const Room = (props) => {
             <div className="property__container container">
               <div className="property__wrapper">
                 <div className="property__mark">
-                  <span>Premium</span>
+                  <span>{offer.isPremium ? `Premium` : ``}</span>
                 </div>
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
-                    Beautiful &amp; luxurious studio at great location
+                    {offer.title}
                   </h1>
                   <button className="property__bookmark-button button" type="button">
                     <svg className="property__bookmark-icon" width="31" height="33">
@@ -81,17 +84,17 @@ const Room = (props) => {
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
-                    Apartment
+                    {offer.type.charAt(0).toUpperCase() + offer.type.slice(1)}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
-                    3 Bedrooms
+                    {offer.bedrooms} Bedrooms
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max 4 adults
+                    Max {offer.maxAdults} adults
                   </li>
                 </ul>
                 <div className="property__price">
-                  <b className="property__price-value">&euro;120</b>
+                  <b className="property__price-value">&euro;{offer.price}</b>
                   <span className="property__price-text">&nbsp;night</span>
                 </div>
                 <div className="property__inside">
