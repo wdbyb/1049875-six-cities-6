@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Room = () => {
+const Room = (props) => {
+
   return (
     <>
       <div style={{display: `none`}}>

@@ -1,18 +1,4 @@
-import React from 'react';
-import Card from '../card/card.jsx';
-import PropTypes from 'prop-types';
-
-const OffersList = (props) => {
-  const {offers} = props;
-
-  return (
-    <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer) => <Card key={offer.id} offer={offer}/>)}
-    </div>
-  );
-};
-
-OffersList.propTypes = {
+export default {
   offers: PropTypes.arrayOf(PropTypes.shape({
     bedrooms: PropTypes.number.isRequired,
     city: PropTypes.shape({
@@ -52,5 +38,3 @@ OffersList.propTypes = {
     type: PropTypes.string.isRequired
   })).isRequired,
 };
-
-export default OffersList;
