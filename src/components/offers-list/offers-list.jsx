@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '../card/card.jsx';
 import PropTypes from 'prop-types';
-import * as types from '../../props/offersPropTypes.js';
+import * as types from '../../props/offers.js';
 
 const OffersList = (props) => {
   const {offers} = props;

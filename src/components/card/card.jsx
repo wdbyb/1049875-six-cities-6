@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import * as types from '../../props/offersPropTypes.js';
+import * as types from '../../props/offers.js';
 
 const Card = (props) => {
   const {offer} = props;

@@ -6,7 +6,7 @@ import Login from '../login/login.jsx';
 import Favorites from '../favorites/favorites.jsx';
 import Room from '../room/room.jsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
-import * as types from '../../props/offersPropTypes.js';
+import * as types from '../../props/offers.js';
 
 const App = (props) => {
   const {offers} = props;
@@ -34,7 +34,6 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  cardsCount: PropTypes.array.isRequired,
   offers: PropTypes.arrayOf(types.offer).isRequired,
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as types from '../../props/offersPropTypes.js';
+import * as types from '../../props/offers.js';
 
 const Favorites = (props) => {
   const {offers} = props;

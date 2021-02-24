@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CommentForm from '../comment-form/comment-form.jsx';
-import * as types from '../../props/offersPropTypes.js';
+import * as types from '../../props/offers.js';
 
 const Room = (props) => {
   const {offers, match} = props;
   const offer = offers.find((item) => item.id === parseInt(match.params.id, 10));
+
+  if (!offer) {
+    return null;
+  }
 
   return (
     <>
