@@ -6,24 +6,24 @@ import Login from '../login/login.jsx';
 import Favorites from '../favorites/favorites.jsx';
 import Room from '../room/room.jsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
+import * as types from '../../props/offers.js';
 
 const App = (props) => {
-  const {cardsCount} = props;
+  const {offers} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainScreen cardsCount={cardsCount} />
+          <MainScreen offers={offers} />
         </Route>
         <Route exact path="/login">
           <Login />
         </Route>
         <Route exact path="/favorites">
-          <Favorites />
+          <Favorites offers={offers} />
         </Route>
-        <Route exact path="/offer/:id">
-          <Room />
+        <Route exact path="/offer/:id" render={(match) => <Room {...match} offers={offers} />}>
         </Route>
         <Route>
           <NotFoundScreen />
@@ -34,7 +34,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  cardsCount: PropTypes.array.isRequired,
+  offers: PropTypes.arrayOf(types.offer).isRequired,
 };
 
 export default App;
