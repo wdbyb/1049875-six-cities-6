@@ -23,7 +23,7 @@ const App = (props) => {
         <Route exact path="/favorites">
           <Favorites offers={offers} />
         </Route>
-        <Route exact path="/offer/:id" render={(match) => <Room {...match} offers={offers} />}>
+        <Route exact path="/offer/:id" render={(serviceProps) => <Room {...serviceProps} offers={offers} />}>
         </Route>
         <Route>
           <NotFoundScreen />
