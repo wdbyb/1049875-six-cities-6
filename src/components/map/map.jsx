@@ -1,26 +1,13 @@
 import React, {useEffect, useRef} from 'react';
+import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
+import * as types from '../../props/offers.js';
 
 import "leaflet/dist/leaflet.css";
 
-const Map = () => {
+const Map = (props) => {
+  const {offers} = props;
   const mapRef = useRef();
-  const points = [{
-    lat: 52.3909553943508,
-    lng: 4.85309666406198
-  },
-  {
-    lat: 52.369553943508,
-    lng: 4.85309666406198
-  },
-  {
-    lat: 52.3909553943508,
-    lng: 4.929309666406198
-  },
-  {
-    lat: 52.3809553943508,
-    lng: 4.939309666406198
-  }];
 
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
@@ -39,15 +26,15 @@ const Map = () => {
       })
       .addTo(mapRef.current);
 
-    points.forEach((point) => {
+    offers.forEach((offer) => {
       const icon = leaflet.icon({
         iconUrl: `img/pin.svg`,
         iconSize: [30, 30]
       });
 
       leaflet.marker({
-        lat: point.lat,
-        lng: point.lng
+        lat: offer.location.latitude,
+        lng: offer.location.longitude
       },
       {
         icon
@@ -65,6 +52,9 @@ const Map = () => {
     <section className="cities__map map" id="map" ref={mapRef}></section>
   );
 };
-// className="cities__map map"
+
+Map.propTypes = {
+  offers: PropTypes.arrayOf(types.offer).isRequired,
+};
 
 export default Map;
