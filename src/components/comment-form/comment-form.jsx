@@ -7,7 +7,7 @@ const CommentForm = () => {
   });
 
   const handleClick = (evt) => {
-    const { value } = evt.target;
+    const {value} = evt.target;
 
     setData((prevData) => ({
       ...prevData,
@@ -16,7 +16,7 @@ const CommentForm = () => {
   };
 
   const handleChange = (evt) => {
-    const { value } = evt.target;
+    const {value} = evt.target;
 
     setData((prevData) => ({
       ...prevData,
@@ -64,7 +64,7 @@ const CommentForm = () => {
             </svg>
           </label>
         </div>
-        <textarea onChange={handleChange} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+        <textarea onChange={handleChange} value={data.comment} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
         <div className="reviews__button-wrapper">
           <p className="reviews__help">
             To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
