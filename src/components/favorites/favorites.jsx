@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as types from '../../props/offers.js';
+import {connect} from 'react-redux';
 
 const Favorites = (props) => {
   const {offers} = props;
@@ -115,4 +116,15 @@ Favorites.propTypes = {
   offers: PropTypes.arrayOf(types.offer).isRequired,
 };
 
-export default Favorites;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onUserAnswer() {
+    dispatch(ActionCreator.getOffers());
+  },
+});
+
+export {Favorites};
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

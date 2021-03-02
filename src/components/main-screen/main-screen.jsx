@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import OffersList from '../offers-list/offers-list.jsx';
 import * as types from '../../props/offers.js';
 import Map from '../map/map.jsx';
+import {connect} from 'react-redux';
+
 
 const MainScreen = (props) => {
   const {offers} = props;
@@ -112,4 +114,15 @@ MainScreen.propTypes = {
   offers: PropTypes.arrayOf(types.offer).isRequired,
 };
 
-export default MainScreen;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onUserAnswer() {
+    dispatch(ActionCreator.getOffers());
+  },
+});
+
+export {MainScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

@@ -33,8 +33,6 @@ const App = (props) => {
   );
 };
 
-App.propTypes = {
-  offers: PropTypes.arrayOf(types.offer).isRequired,
-};
+App.propTypes = {};
 
 export default App;
