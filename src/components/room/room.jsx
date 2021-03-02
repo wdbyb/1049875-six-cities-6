@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CommentForm from '../comment-form/comment-form.jsx';
 import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/actions.js';
 
 const Room = (props) => {
   const {offers, match} = props;

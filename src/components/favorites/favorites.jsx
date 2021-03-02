@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/actions.js';
 
 const Favorites = (props) => {
   const {offers} = props;
