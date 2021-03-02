@@ -41,11 +41,11 @@ const Map = (props) => {
       })
         .addTo(mapRef.current)
         .bindPopup(`Hello!`);
-
-      return () => {
-        mapRef.current.remove();
-      };
     });
+
+    return () => {
+      mapRef.current.remove();
+    };
   }, []);
 
   return (
