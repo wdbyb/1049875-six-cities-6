@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import CommentForm from '../comment-form/comment-form.jsx';
 import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action.js';
 
 const Room = (props) => {
   const {offers, match} = props;
@@ -312,11 +311,5 @@ const mapStateToProps = (state) => ({
   offers: state.offers,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onUserAnswer() {
-    dispatch(ActionCreator.getOffers());
-  },
-});
-
 export {Room};
-export default connect(mapStateToProps, mapDispatchToProps)(Room);
+export default connect(mapStateToProps, null)(Room);

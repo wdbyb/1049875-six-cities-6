@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action.js';
 
 const Favorites = (props) => {
   const {offers} = props;
@@ -121,11 +120,5 @@ const mapStateToProps = (state) => ({
   offers: state.offers,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onUserAnswer() {
-    dispatch(ActionCreator.getOffers());
-  },
-});
-
 export {Favorites};
-export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
+export default connect(mapStateToProps, null)(Favorites);
