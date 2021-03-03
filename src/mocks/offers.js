@@ -41,7 +41,7 @@ export default [
         longitude: 4.895168,
         zoom: 10
       },
-      name: `Afrika`
+      name: `Paris`
     },
     description: `Morbi urna justo, lacinia sed tortor a, accumsan pharetra arcu. Pellentesque eget efficitur sapien, ut malesuada neque. Duis accumsan purus et odio.`,
     goods: [`Heating`, `Kitchen`, `Cable TV`],
@@ -75,7 +75,7 @@ export default [
         longitude: 4.895168,
         zoom: 10
       },
-      name: `Euroep`
+      name: `Paris`
     },
     description: `Aliquam vitae quam nec nisl blandit condimentum vitae ut velit. Aliquam erat volutpat. Nunc posuere felis suscipit est consequat vehicula. Integer et convallis urna, nec condimentum quam.`,
     goods: [`Cable TV`, `Dishwasher`],
@@ -109,7 +109,7 @@ export default [
         longitude: 4.895168,
         zoom: 10
       },
-      name: `London`
+      name: `Brussels`
     },
     description: `Aliquam vitae quam nec nisl blandit condimentum vitae ut velit. Aliquam erat volutpat. Nunc posuere felis suscipit est consequat vehicula. Integer et convallis urna, nec condimentum quam.`,
     goods: [`Cable TV`, `Washing machine`, `Dishwasher`],

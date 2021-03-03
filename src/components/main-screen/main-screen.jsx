@@ -5,7 +5,6 @@ import * as types from '../../props/offers.js';
 import Map from '../map/map.jsx';
 import Locations from '../locations/locations.jsx';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/actions.js';
 
 const MainScreen = (props) => {
   const {offers, city} = props;
@@ -49,7 +48,7 @@ const MainScreen = (props) => {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">312 places to stay in {city}</b>
+                <b className="places__found">{offers.length} places to stay in {city}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex="0">
@@ -68,7 +67,7 @@ const MainScreen = (props) => {
                 <OffersList offers={offers} />
               </section>
               <div className="cities__right-section">
-                <Map offers={offers} />
+                <Map />
               </div>
             </div>
           </div>
@@ -84,15 +83,9 @@ MainScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
+  offers: state.filtredOffers,
   city: state.city
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onUserAnswer() {
-    dispatch(ActionCreator.getOffers());
-  },
-});
-
 export {MainScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps, null)(MainScreen);

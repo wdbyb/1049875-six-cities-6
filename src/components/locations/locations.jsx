@@ -1,44 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import * as types from '../../props/offers.js';
-import {ActionCreator} from '../../store/actions.js';
+import {ActionCreator} from '../../store/action.js';
 
-const foo = (evt) => {
-  evt.preventDefault();
-};
+const Locations = (props) => {
+  const {onUserAnswer} = props;
 
-const Locations = () => {
   return (
     <>
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          <li className="locations__item" onClick={foo}>
+          <li className="locations__item" onClick={onUserAnswer}>
             <a className="locations__item-link tabs__item tabs__item--active" href="#">
               <span>Paris</span>
             </a>
           </li>
-          <li className="locations__item" onClick={foo}>
+          <li className="locations__item" onClick={onUserAnswer}>
             <a className="locations__item-link tabs__item" href="#">
               <span>Cologne</span>
             </a>
           </li>
-          <li className="locations__item" onClick={foo}>
+          <li className="locations__item" onClick={onUserAnswer}>
             <a className="locations__item-link tabs__item" href="#">
               <span>Brussels</span>
             </a>
           </li>
-          <li className="locations__item" onClick={foo}>
+          <li className="locations__item" onClick={onUserAnswer}>
             <a className="locations__item-link tabs__item">
               <span>Amsterdam</span>
             </a>
           </li>
-          <li className="locations__item" onClick={foo}>
+          <li className="locations__item" onClick={onUserAnswer}>
             <a className="locations__item-link tabs__item" href="#">
               <span>Hamburg</span>
             </a>
           </li>
-          <li className="locations__item" onClick={foo}>
+          <li className="locations__item" onClick={onUserAnswer}>
             <a className="locations__item-link tabs__item" href="#">
               <span>Dusseldorf</span>
             </a>
@@ -50,18 +47,16 @@ const Locations = () => {
 };
 
 Locations.propTypes = {
-  offers: PropTypes.arrayOf(types.offer).isRequired,
+  onUserAnswer: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  offers: state.offers,
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  onUserAnswer() {
-    dispatch(ActionCreator.getOffers());
+  onUserAnswer(evt) {
+    evt.preventDefault();
+    const city = evt.target.textContent;
+    dispatch(ActionCreator.changeCity(city));
   },
 });
 
 export {Locations};
-export default connect(mapStateToProps, mapDispatchToProps)(Locations);
+export default connect(null, mapDispatchToProps)(Locations);
