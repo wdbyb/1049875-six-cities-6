@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
 import * as types from '../../props/offers.js';
+import {connect} from 'react-redux';
 
 import "leaflet/dist/leaflet.css";
 
@@ -41,12 +42,12 @@ const Map = (props) => {
       })
         .addTo(mapRef.current)
         .bindPopup(`Hello!`);
-
-      return () => {
-        mapRef.current.remove();
-      };
     });
-  }, []);
+
+    return () => {
+      mapRef.current.remove();
+    };
+  }, [offers]);
 
   return (
     <section className="cities__map map" id="map" ref={mapRef}></section>
@@ -57,4 +58,9 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(types.offer).isRequired,
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  offers: state.filtredOffers
+});
+
+export {Map};
+export default connect(mapStateToProps, null)(Map);

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CommentForm from '../comment-form/comment-form.jsx';
 import * as types from '../../props/offers.js';
+import {connect} from 'react-redux';
 
 const Room = (props) => {
   const {offers, match} = props;
@@ -306,4 +307,9 @@ Room.propTypes = {
   }).isRequired,
 };
 
-export default Room;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+});
+
+export {Room};
+export default connect(mapStateToProps, null)(Room);
