@@ -1,13 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../offers-list/offers-list.jsx';
 import * as types from '../../props/offers.js';
 import Map from '../map/map.jsx';
 import Locations from '../locations/locations.jsx';
 import {connect} from 'react-redux';
+import {fetchOffersList} from "../../store/api-actions";
 
 const MainScreen = (props) => {
-  const {offers, city} = props;
+  const {offers, city, isDataLoaded, onLoadData} = props;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]);
+
+  if (!isDataLoaded) {
+    return (
+      <p>Loading ...</p>
+    );
+  }
 
   return (
     <>
@@ -79,13 +92,22 @@ const MainScreen = (props) => {
 
 MainScreen.propTypes = {
   offers: PropTypes.arrayOf(types.offer).isRequired,
-  city: PropTypes.string.isRequired
+  city: PropTypes.string.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.filtredOffers,
-  city: state.city
+  city: state.city,
+  isDataLoaded: state.isDataLoaded
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchOffersList());
+  }
 });
 
 export {MainScreen};
-export default connect(mapStateToProps, null)(MainScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
