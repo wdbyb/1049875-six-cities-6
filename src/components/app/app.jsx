@@ -5,6 +5,7 @@ import Login from '../login/login.jsx';
 import Favorites from '../favorites/favorites.jsx';
 import Room from '../room/room.jsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
+import PrivateRoute from '../private-route/private-route.jsx';
 
 const App = () => {
   return (

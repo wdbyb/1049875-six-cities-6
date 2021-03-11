@@ -14,7 +14,7 @@ const MainScreen = (props) => {
     if (!isDataLoaded) {
       onLoadData();
     }
-  }, [isDataLoaded]);
+  }, [isDataLoaded, onLoadData]);
 
   if (!isDataLoaded) {
     return (
