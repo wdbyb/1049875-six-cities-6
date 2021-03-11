@@ -15,12 +15,15 @@ const App = () => {
         <Route exact path="/">
           <MainScreen />
         </Route>
-        <Route exact path="/login">
-          <Login />
+        <Route exact path="/login" render={({history}) => (
+          <Login redirectToRoot={() => history.push(`/`)} />
+        )}>
         </Route>
-        <Route exact path="/favorites">
-          <Favorites />
-        </Route>
+        <PrivateRoute exact
+          path="/favorites"
+          render={() => <Favorites />}
+        >
+        </PrivateRoute>
         <Route exact path="/offer/:id" render={(serviceProps) => <Room {...serviceProps} />}>
         </Route>
         <Route>

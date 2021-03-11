@@ -1,7 +1,8 @@
 export const ActionType = {
   CHANGE_CITY: `CHANGE_CITY`,
   LOAD_OFFERS: `LOAD_OFFERS`,
-  REQUIRED_AUTH: `REQUIRED_AUTH`
+  REQUIRED_AUTH: `REQUIRED_AUTH`,
+  SAVE_DATA: `SAVE_DATA`
 };
 
 export const ActionCreator = {
@@ -18,7 +19,7 @@ export const ActionCreator = {
     payload: status
   }),
   saveData: (data) => ({
-    type: 1,
+    type: ActionType.SAVE_DATA,
     payload: data
   })
 };

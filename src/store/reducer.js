@@ -33,7 +33,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         authStatus: action.payload
       };
-    case 1:
+    case ActionType.SAVE_DATA:
       return {
         ...state,
         user: action.payload

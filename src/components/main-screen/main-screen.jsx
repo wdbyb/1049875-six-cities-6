@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import OffersList from '../offers-list/offers-list.jsx';
 import * as types from '../../props/offers.js';

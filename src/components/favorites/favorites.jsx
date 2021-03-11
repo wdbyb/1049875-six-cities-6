@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
