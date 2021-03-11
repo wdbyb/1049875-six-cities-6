@@ -7,8 +7,14 @@ import {createAPI} from './services/api.js';
 import {Provider} from 'react-redux';
 import {reducer} from './store/reducer.js';
 import {composeWithDevTools} from 'redux-devtools-extension';
+import {ActionCreator} from './store/action';
+import {checkAuth} from './store/api-actions';
+import {AuthStatus} from './const.js';
+import {fetchOffersList} from "./store/api-actions";
 
-const api = createAPI();
+const api = createAPI(
+    () => store.dispatch(ActionCreator.requireAuth(AuthStatus.NO_AUTH))
+);
 
 const store = createStore(
     reducer,
@@ -17,9 +23,14 @@ const store = createStore(
     )
 );
 
-ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.querySelector(`#root`)
-);
+Promise.all([
+  store.dispatch(checkAuth()),
+  store.dispatch(fetchOffersList())
+]).then(() => {
+  ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      document.querySelector(`#root`)
+  );
+});

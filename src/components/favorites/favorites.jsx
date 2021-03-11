@@ -117,8 +117,9 @@ Favorites.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
+  offers: state.filtredOffers,
+  isDataLoaded: state.isDataLoaded,
 });
 
 export {Favorites};
-export default connect(mapStateToProps, null)(Favorites);
+export default connect(mapStateToProps)(Favorites);
