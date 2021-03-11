@@ -1,14 +1,11 @@
 import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {useHistory} from 'react-router-dom';
 import {login} from "../../store/api-actions";
 
 const Login = ({onSubmit}) => {
   const emailRef = useRef();
   const passwordRef = useRef();
-
-  const history = useHistory();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -62,7 +59,7 @@ const Login = ({onSubmit}) => {
                   <label className="visually-hidden">Password</label>
                   <input className="login__input form__input" type="password" name="password" placeholder="Password" required="" ref={passwordRef} />
                 </div>
-                <button className="login__submit form__submit button" type="button" onClick={() => history.push(`/`)}
+                <button className="login__submit form__submit button" type="submit"
                 >Sign in</button>
               </form>
             </section>
@@ -91,4 +88,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {Login};
-export default connect(mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

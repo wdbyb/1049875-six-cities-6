@@ -33,6 +33,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         authStatus: action.payload
       };
+    case 1:
+      return {
+        ...state,
+        user: action.payload
+      };
   }
 
   return state;

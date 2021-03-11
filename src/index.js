@@ -10,6 +10,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import {ActionCreator} from './store/action';
 import {checkAuth} from './store/api-actions';
 import {AuthStatus} from './const.js';
+import {fetchOffersList} from "./store/api-actions";
 
 const api = createAPI(
     () => store.dispatch(ActionCreator.requireAuth(AuthStatus.NO_AUTH))
@@ -22,11 +23,14 @@ const store = createStore(
     )
 );
 
-store.dispatch(checkAuth());
-
-ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.querySelector(`#root`)
-);
+Promise.all([
+  store.dispatch(checkAuth()),
+  store.dispatch(fetchOffersList())
+]).then(() => {
+  ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      document.querySelector(`#root`)
+  );
+});

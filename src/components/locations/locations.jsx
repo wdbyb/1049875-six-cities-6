@@ -59,4 +59,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export {Locations};
-export default connect(mapDispatchToProps)(Locations);
+export default connect(null, mapDispatchToProps)(Locations);

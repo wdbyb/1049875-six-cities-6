@@ -16,5 +16,9 @@ export const ActionCreator = {
   requireAuth: (status) => ({
     type: ActionType.REQUIRED_AUTH,
     payload: status
+  }),
+  saveData: (data) => ({
+    type: 1,
+    payload: data
   })
 };

@@ -1,15 +1,16 @@
 import React from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import MainScreen from '../main-screen/main-screen.jsx';
 import Login from '../login/login.jsx';
 import Favorites from '../favorites/favorites.jsx';
 import Room from '../room/room.jsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
+import browserHistory from "../../browser-history";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path="/">
           <MainScreen />

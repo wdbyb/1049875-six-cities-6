@@ -5,22 +5,9 @@ import * as types from '../../props/offers.js';
 import Map from '../map/map.jsx';
 import Locations from '../locations/locations.jsx';
 import {connect} from 'react-redux';
-import {fetchOffersList} from "../../store/api-actions";
 
 const MainScreen = (props) => {
-  const {offers, city, isDataLoaded, onLoadData} = props;
-
-  useEffect(() => {
-    if (!isDataLoaded) {
-      onLoadData();
-    }
-  }, [isDataLoaded, onLoadData]);
-
-  if (!isDataLoaded) {
-    return (
-      <p>Loading ...</p>
-    );
-  }
+  const {offers, city} = props;
 
   return (
     <>
@@ -93,21 +80,12 @@ const MainScreen = (props) => {
 MainScreen.propTypes = {
   offers: PropTypes.arrayOf(types.offer).isRequired,
   city: PropTypes.string.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   offers: state.filtredOffers,
-  city: state.city,
-  isDataLoaded: state.isDataLoaded
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchOffersList());
-  }
+  city: state.city
 });
 
 export {MainScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps)(MainScreen);

@@ -19,5 +19,8 @@ export const checkAuth = () => (next, _getState, api) => (
 
 export const login = ({email, password}) => (next, _getState, api) => (
   api.post(`/login`, {email, password})
-    .then(() => next(ActionCreator.requireAuth(AuthStatus.AUTH)))
+    .then((response) => {
+      next(ActionCreator.requireAuth(AuthStatus.AUTH))
+      next(ActionCreator.saveData(response.data))
+    })
 );
