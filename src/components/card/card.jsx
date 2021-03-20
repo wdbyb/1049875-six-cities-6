@@ -1,9 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import * as types from '../../props/offers.js';
+import {RatingStars} from '../../const.js';
 
 const Card = (props) => {
   const {offer} = props;
+  const starsCount = Math.round(RatingStars.MAX_WIDTH * +offer.rating / RatingStars.MAX_RATING).toString() + `%`;
 
   return (
     <>
@@ -13,7 +15,7 @@ const Card = (props) => {
         </div>
         <div className="cities__image-wrapper place-card__image-wrapper">
           <Link to={`/offer/${offer.id}`}>
-            <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image"/>
+            <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
           </Link>
         </div>
         <div className="place-card__info">
@@ -31,7 +33,7 @@ const Card = (props) => {
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
-              <span style={{width: `60%`}}></span>
+              <span style={{width: starsCount}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
           </div>

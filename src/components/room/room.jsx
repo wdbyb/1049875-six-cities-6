@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import CommentForm from '../comment-form/comment-form.jsx';
 import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
+import {RatingStars} from '../../const.js';
+import Map from '../map/map.jsx';
+import {Link} from 'react-router-dom';
 
 const Room = (props) => {
   const {offers, match} = props;
   const offer = offers.find((item) => item.id === parseInt(match.params.id, 10));
+  const starsCount = Math.round(RatingStars.MAX_WIDTH * +offer.rating / RatingStars.MAX_RATING).toString() + `%`;
+  console.log(offer);
 
   if (!offer) {
     return null;
@@ -23,9 +28,9 @@ const Room = (props) => {
           <div className="container">
             <div className="header__wrapper">
               <div className="header__left">
-                <a className="header__logo-link" href="main.html">
+                <Link className="header__logo-link" href="main.html" to="/">
                   <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-                </a>
+                </Link>
               </div>
               <nav className="header__nav">
                 <ul className="header__nav-list">
@@ -46,31 +51,25 @@ const Room = (props) => {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/room.jpg" alt="Photo studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/studio-01.jpg" alt="Photo studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-                </div>
+                {offer.images.map((image, i) => {
+                  if (i > 5) {
+                    return;
+                  }
+
+                  return (
+                    <div className="property__image-wrapper" key={image + i.toString()}>
+                      <img className="property__image" src={image} alt="Photo studio" />
+                    </div>
+                  );
+                })}
               </div>
             </div>
             <div className="property__container container">
               <div className="property__wrapper">
-                <div className="property__mark">
-                  <span>{offer.isPremium ? `Premium` : ``}</span>
-                </div>
+                {offer.isPremium ?
+                  <div className="property__mark">
+                    <span>Premium</span>
+                  </div> : ``}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
                     {offer.title}
@@ -84,10 +83,10 @@ const Room = (props) => {
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
-                    <span style={{width: `80%`}}></span>
+                    <span style={{width: starsCount}}></span>
                     <span className="visually-hidden">Rating</span>
                   </div>
-                  <span className="property__rating-value rating__value">4.8</span>
+                  <span className="property__rating-value rating__value">{offer.rating}</span>
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
@@ -107,54 +106,26 @@ const Room = (props) => {
                 <div className="property__inside">
                   <h2 className="property__inside-title">What&apos;s inside</h2>
                   <ul className="property__inside-list">
-                    <li className="property__inside-item">
-                      Wi-Fi
-                    </li>
-                    <li className="property__inside-item">
-                      Washing machine
-                    </li>
-                    <li className="property__inside-item">
-                      Towels
-                    </li>
-                    <li className="property__inside-item">
-                      Heating
-                    </li>
-                    <li className="property__inside-item">
-                      Coffee machine
-                    </li>
-                    <li className="property__inside-item">
-                      Baby seat
-                    </li>
-                    <li className="property__inside-item">
-                      Kitchen
-                    </li>
-                    <li className="property__inside-item">
-                      Dishwasher
-                    </li>
-                    <li className="property__inside-item">
-                      Cabel TV
-                    </li>
-                    <li className="property__inside-item">
-                      Fridge
-                    </li>
+                    {offer.goods.map((good, i) => (
+                      <li className="property__inside-item" key={good + i.toString()}>
+                        {good}
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div className="property__host">
                   <h2 className="property__host-title">Meet the host</h2>
                   <div className="property__host-user user">
-                    <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                      <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                    <div className={`property__avatar-wrapper ${offer.host.isPro ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
+                      <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                     </div>
                     <span className="property__user-name">
-                      Angelina
+                      {offer.host.name}
                     </span>
                   </div>
                   <div className="property__description">
                     <p className="property__text">
-                      A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                    </p>
-                    <p className="property__text">
-                      An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                      {offer.description}
                     </p>
                   </div>
                 </div>
@@ -188,7 +159,9 @@ const Room = (props) => {
                 </section>
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map">
+              <Map />
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">
