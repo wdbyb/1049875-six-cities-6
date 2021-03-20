@@ -8,10 +8,17 @@ import Map from '../map/map.jsx';
 import {Link} from 'react-router-dom';
 
 const Room = (props) => {
-  const {offers, match} = props;
+  const {offers, match, authStatus, authInfo, redirectToLogin} = props;
   const offer = offers.find((item) => item.id === parseInt(match.params.id, 10));
   const starsCount = Math.round(RatingStars.MAX_WIDTH * +offer.rating / RatingStars.MAX_RATING).toString() + `%`;
-  console.log(offer);
+
+  const handleClickFavoritesButton = (evt) => {
+    if (authStatus === `NO_AUTH`) {
+      redirectToLogin();
+    }
+
+    console.log(1);
+  };
 
   if (!offer) {
     return null;
@@ -35,11 +42,14 @@ const Room = (props) => {
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
-                    <a className="header__nav-link header__nav-link--profile" href="#">
+                    <Link className="header__nav-link header__nav-link--profile" href="#" to="/favorites">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    </a>
+                      {authStatus === `AUTH` ?
+                        <span className="header__user-name user__name">{authInfo.email}</span> :
+                        <span className="header__user-name user__name">Войти</span>
+                      }
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -74,7 +84,7 @@ const Room = (props) => {
                   <h1 className="property__name">
                     {offer.title}
                   </h1>
-                  <button className="property__bookmark-button button" type="button">
+                  <button className="property__bookmark-button button" type="button" onClick={handleClickFavoritesButton}>
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
@@ -282,6 +292,8 @@ Room.propTypes = {
 
 const mapStateToProps = (state) => ({
   offers: state.offers,
+  authStatus: state.authStatus,
+  authInfo: state.authInfo
 });
 
 export {Room};

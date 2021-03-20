@@ -8,15 +8,16 @@ import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
   const {offers} = props;
+  const cityLocation = offers[0].city.location;
   const mapRef = useRef();
 
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
       center: {
-        lat: 52.38333,
-        lng: 4.9
+        lat: cityLocation.latitude,
+        lng: cityLocation.longitude
       },
-      zoom: 12,
+      zoom: cityLocation.zoom,
       zoomControl: false,
       marker: true
     });

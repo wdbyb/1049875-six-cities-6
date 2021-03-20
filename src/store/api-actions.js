@@ -13,7 +13,13 @@ export const fetchOffersList = () => (next, _getState, api) => (
 
 export const checkAuth = () => (next, _getState, api) => (
   api.get(`/login`)
-    .then(() => next(ActionCreator.requireAuth(AuthStatus.AUTH)))
+    .then((response) => {
+      next(ActionCreator.requireAuth(AuthStatus.AUTH));
+      next({
+        type: 1,
+        payload: response.data
+      });
+    })
     .catch(() => {})
 );
 

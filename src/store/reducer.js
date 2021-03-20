@@ -38,6 +38,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: action.payload
       };
+    case 1:
+      return {
+        ...state,
+        authInfo: action.payload
+      };
   }
 
   return state;

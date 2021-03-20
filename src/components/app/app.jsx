@@ -24,7 +24,9 @@ const App = () => {
           render={() => <Favorites />}
         >
         </PrivateRoute>
-        <Route exact path="/offer/:id" render={(serviceProps) => <Room {...serviceProps} />}>
+        <Route exact path="/offer/:id" render={(serviceProps) => (
+          <Room {...serviceProps} redirectToLogin={() => serviceProps.history.push(`/login`)} />
+        )}>
         </Route>
         <Route>
           <NotFoundScreen />
