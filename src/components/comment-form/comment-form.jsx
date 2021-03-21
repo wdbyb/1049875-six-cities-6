@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {AuthStatus} from '../../const.js';
 
-const CommentForm = () => {
+const CommentForm = (props) => {
+  const {authStatus} = props;
+
   const [data, setData] = useState({
     rating: ``,
     comment: ``
@@ -23,6 +28,10 @@ const CommentForm = () => {
       comment: value
     }));
   };
+
+  if (authStatus === AuthStatus.NO_AUTH) {
+    return null;
+  }
 
   return (
     <>
@@ -76,4 +85,16 @@ const CommentForm = () => {
   );
 };
 
-export default CommentForm;
+CommentForm.propTypes = {
+  authStatus: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  authStatus: state.authStatus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

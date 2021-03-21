@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {RatingStars} from '../../const.js';
 import Map from '../map/map.jsx';
 import {Link} from 'react-router-dom';
+import {fetchCommentsList} from "../../store/api-actions";
 
 
 const Room = (props) => {
@@ -19,7 +20,12 @@ const Room = (props) => {
     }
   };
 
-  console.log(currentOfferCommentsList);
+  useEffect(
+    () => {
+      getCommentsList(offer.id);
+    },
+    [getCommentsList]
+  );
 
   if (!offer) {
     return null;
@@ -304,5 +310,11 @@ const mapStateToProps = (state) => ({
   currentOfferCommentsList: state.currentOfferCommentsList,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  getCommentsList(offerID) {
+    dispatch(fetchCommentsList(offerID));
+  }
+});
+
 export {Room};
-export default connect(mapStateToProps)(Room);
+export default connect(mapStateToProps, mapDispatchToProps)(Room);

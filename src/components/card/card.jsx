@@ -2,16 +2,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import * as types from '../../props/offers.js';
 import {RatingStars} from '../../const.js';
-import {connect} from 'react-redux';
-import {fetchCommentsList} from "../../store/api-actions";
 
 const Card = (props) => {
   const {offer, getCommentsList} = props;
   const starsCount = Math.round(RatingStars.MAX_WIDTH * +offer.rating / RatingStars.MAX_RATING).toString() + `%`;
-
-  const handleClick = () => {
-    getCommentsList(offer.id);
-  };
 
   return (
     <>
@@ -21,7 +15,7 @@ const Card = (props) => {
             <span>Premium</span>
           </div> : ``}
         <div className="cities__image-wrapper place-card__image-wrapper">
-          <Link to={`/offer/${offer.id}`} onClick={handleClick}>
+          <Link to={`/offer/${offer.id}`}>
             <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image"/>
           </Link>
         </div>
@@ -60,11 +54,4 @@ Card.propTypes = {
   offer: types.offer,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getCommentsList(offerID) {
-    dispatch(fetchCommentsList(offerID));
-  }
-});
-
-export {Card};
-export default connect(null, mapDispatchToProps)(Card);
+export default Card;
