@@ -11,13 +11,22 @@ export const fetchOffersList = () => (next, _getState, api) => (
     }))
 );
 
+export const fetchCommentsList = (offerID) => (next, _getState, api) => (
+  api.get(`/comments/${offerID}`)
+    .then(({data}) => next({
+      type: 2,
+      payload: data
+    }))
+    .catch(() => {})
+);
+
 export const checkAuth = () => (next, _getState, api) => (
   api.get(`/login`)
-    .then((response) => {
+    .then(({data}) => {
       next(ActionCreator.requireAuth(AuthStatus.AUTH));
       next({
         type: 1,
-        payload: response.data
+        payload: data
       });
     })
     .catch(() => {})
@@ -25,8 +34,8 @@ export const checkAuth = () => (next, _getState, api) => (
 
 export const login = ({email, password}) => (next, _getState, api) => (
   api.post(`/login`, {email, password})
-    .then((response) => {
+    .then(({data}) => {
       next(ActionCreator.requireAuth(AuthStatus.AUTH));
-      next(ActionCreator.saveData(response.data));
+      next(ActionCreator.saveData(data));
     })
 );

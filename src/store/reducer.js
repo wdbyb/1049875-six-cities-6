@@ -43,6 +43,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         authInfo: action.payload
       };
+    case 2:
+      return {
+        ...state,
+        currentOfferCommentsList: action.payload
+      };
   }
 
   return state;
