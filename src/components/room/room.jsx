@@ -21,10 +21,10 @@ const Room = (props) => {
   };
 
   useEffect(
-    () => {
-      getCommentsList(offer.id);
-    },
-    [getCommentsList]
+      () => {
+        getCommentsList(offer.id);
+      },
+      [getCommentsList]
   );
 
   if (!offer) {
@@ -178,7 +178,7 @@ const Room = (props) => {
                       );
                     })}
                   </ul>
-                  {<CommentForm />}
+                  {<CommentForm authStatus={authStatus} offerID={offer.id} />}
                 </section>
               </div>
             </div>

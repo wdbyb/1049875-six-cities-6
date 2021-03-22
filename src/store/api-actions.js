@@ -20,6 +20,16 @@ export const fetchCommentsList = (offerID) => (next, _getState, api) => (
     .catch(() => {})
 );
 
+export const commentPost = ({comment, rating, offerID}) => (next, _getState, api) => (
+  console.log({comment, rating, offerID}),
+  api.post(`/comments/${offerID}`, {comment, rating})
+  .then(({data}) => next({
+    type: 2,
+    payload: data
+  }))
+  .catch(() => {})
+);
+
 export const checkAuth = () => (next, _getState, api) => (
   api.get(`/login`)
     .then(({data}) => {

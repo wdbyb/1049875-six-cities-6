@@ -1,32 +1,41 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {AuthStatus} from '../../const.js';
+import {commentPost} from "../../store/api-actions";
+
+const TargetTypes = {
+  RADIO: `radio`
+};
 
 const CommentForm = (props) => {
-  const {authStatus} = props;
+  const {authStatus, offerID, onCommentSubmit} = props;
+  const commentRef = useRef();
+  const [reviewRating, setReviewRating] = useState(0);
+  const [isElementsDisabled, setElementsState] = useState(false);
 
-  const [data, setData] = useState({
-    rating: ``,
-    comment: ``
-  });
-
-  const handleClick = (evt) => {
-    const {value} = evt.target;
-
-    setData((prevData) => ({
-      ...prevData,
-      rating: value
-    }));
+  const handleClickOnStars = (evt) => {
+    if (evt.target.type === TargetTypes.RADIO) {
+      const newRating = evt.target.value;
+      setReviewRating(newRating);
+    }
   };
 
-  const handleChange = (evt) => {
-    const {value} = evt.target;
+  const handleCommentSubmit = (evt) => {
+    evt.preventDefault();
 
-    setData((prevData) => ({
-      ...prevData,
-      comment: value
-    }));
+    // if (commentRef.current.value.length < 50 || reviewRating === 0) {
+    //   alert(`To submit review please make sure to set rating and describe your stay with at least 50 characters, but no more than 300`);
+    //   return;
+    // }
+
+    // setElementsState(true);
+
+    onCommentSubmit({
+      comment: `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
+      rating: 4,
+      offerID
+    });
   };
 
   if (authStatus === AuthStatus.NO_AUTH) {
@@ -35,9 +44,9 @@ const CommentForm = (props) => {
 
   return (
     <>
-      <form className="reviews__form form" action="#" method="post">
+      <form className="reviews__form form" action="#" method="post" onSubmit={handleCommentSubmit}>
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
-        <div onClick={handleClick} className="reviews__rating-form form__rating">
+        <div className="reviews__rating-form form__rating" onClick={handleClickOnStars}>
           <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
           <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
             <svg className="form__star-image" width="37" height="33">
@@ -73,12 +82,12 @@ const CommentForm = (props) => {
             </svg>
           </label>
         </div>
-        <textarea onChange={handleChange} value={data.comment} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+        <textarea ref={commentRef} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" min="50" max="300" disabled={isElementsDisabled}></textarea>
         <div className="reviews__button-wrapper">
           <p className="reviews__help">
             To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
           </p>
-          <button className="reviews__submit form__submit button" type="submit" disabled="">Submit</button>
+          <button className="reviews__submit form__submit button" type="submit" disabled={isElementsDisabled}>Submit</button>
         </div>
       </form>
     </>
@@ -90,11 +99,13 @@ CommentForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  authStatus: state.authStatus,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  onCommentSubmit(reviewData) {
+    dispatch(commentPost(reviewData));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
