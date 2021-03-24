@@ -53,7 +53,7 @@ const Room = (props) => {
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
                       {authStatus === `AUTH` ?
-                        <span className="header__user-name user__name">{authInfo.email}</span> :
+                        <span className="header__user-name user__name">{authInfo.email ? authInfo.email : `Something went wrong`}</span> :
                         <span className="header__user-name user__name">Войти</span>
                       }
                     </Link>

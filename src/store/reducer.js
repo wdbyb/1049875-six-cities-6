@@ -7,6 +7,7 @@ const offers = [];
 
 const initialState = {
   offers,
+  clearCommentForm: false,
   authStatus: AuthStatus.NO_AUTH,
   city: DEFAULT_CITY,
   isDataLoaded: false,
@@ -34,20 +35,26 @@ const reducer = (state = initialState, action) => {
         authStatus: action.payload
       };
     case ActionType.SAVE_DATA:
+      console.log(action.payload);
       return {
         ...state,
         user: action.payload
       };
-    case 1:
+    case ActionType.AUTH_INFO:
       return {
         ...state,
         authInfo: action.payload
       };
-    case 2:
+    case ActionType.GET_COMMENTS:
       return {
         ...state,
         currentOfferCommentsList: action.payload
       };
+      case ActionType.CLEAR_COMMENT_FORM:
+        return {
+          ...state,
+          clearCommentForm: true
+        };
   }
 
   return state;

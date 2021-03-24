@@ -13,20 +13,16 @@ export const fetchOffersList = () => (next, _getState, api) => (
 
 export const fetchCommentsList = (offerID) => (next, _getState, api) => (
   api.get(`/comments/${offerID}`)
-    .then(({data}) => next({
-      type: 2,
-      payload: data
-    }))
+    .then(({data}) => next(ActionCreator.getComments(data)))
     .catch(() => {})
 );
 
 export const commentPost = ({comment, rating, offerID}) => (next, _getState, api) => (
-  console.log({comment, rating, offerID}),
   api.post(`/comments/${offerID}`, {comment, rating})
-  .then(({data}) => next({
-    type: 2,
-    payload: data
-  }))
+  .then(({data}) => {
+    next(ActionCreator.getComments(data));
+    next(ActionCreator.clearCommentForm());
+  })
   .catch(() => {})
 );
 
@@ -34,10 +30,7 @@ export const checkAuth = () => (next, _getState, api) => (
   api.get(`/login`)
     .then(({data}) => {
       next(ActionCreator.requireAuth(AuthStatus.AUTH));
-      next({
-        type: 1,
-        payload: data
-      });
+      next(ActionCreator.getAuthInfo(data));
     })
     .catch(() => {})
 );
