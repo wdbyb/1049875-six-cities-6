@@ -5,7 +5,9 @@ export const ActionType = {
   SAVE_DATA: `SAVE_DATA`,
   GET_COMMENTS: `GET_COMMENTS`,
   AUTH_INFO: `AUTH_INFO`,
-  CLEAR_COMMENT_FORM: `CLEAR_COMMENT_FORM`
+  CLEAR_COMMENT_FORM: `CLEAR_COMMENT_FORM`,
+  GET_FAVORITE: `GET_FAVORITE`,
+  POST_FAVORITE: `POST_FAVORITE`
 };
 
 export const ActionCreator = {
@@ -18,6 +20,10 @@ export const ActionCreator = {
   }),
   getOffers: (data) => ({
     type: ActionType.LOAD_OFFERS,
+    payload: data
+  }),
+  getFavorite: (data) => ({
+    type: ActionType.GET_FAVORITE,
     payload: data
   }),
   getComments: (data) => ({

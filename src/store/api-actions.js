@@ -5,10 +5,22 @@ import {AuthStatus} from '../const.js';
 export const fetchOffersList = () => (next, _getState, api) => (
   api.get(`/hotels`)
     .then(({data}) => data.map(adaptDataToClient))
-    .then((data) => next({
-      type: ActionType.LOAD_OFFERS,
-      payload: data
-    }))
+    .then((data) => next(ActionCreator.getOffers(data)))
+    .catch(() => {})
+);
+
+export const fetchFavoriteList = () => (next, _getState, api) => (
+  api.get(`/favorite`)
+    .then(({data}) => data.map(adaptDataToClient))
+    .then((data) => next(ActionCreator.getFavorite(data)))
+    .catch(() => {})
+);
+
+export const postFavorite = (offerID, status) => (next, _getState, api) => (
+  api.post(`/favorite/${offerID}/${status}`)
+    .then(({data}) => data.map(adaptDataToClient))
+    .then((data) => next(ActionCreator.getFavorite(data)))
+    .catch(() => {})
 );
 
 export const fetchCommentsList = (offerID) => (next, _getState, api) => (
