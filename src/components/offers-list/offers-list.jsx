@@ -15,6 +15,7 @@ const OffersList = (props) => {
 
 OffersList.propTypes = {
   offers: PropTypes.arrayOf(types.offer).isRequired,
+  redirectToLogin: PropTypes.func.isRequired,
 };
 
 export default OffersList;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import * as types from '../../props/offers.js';
 import {RatingStars, AuthStatus, FavoritePostStatus} from '../../const.js';
@@ -6,7 +7,7 @@ import {connect} from 'react-redux';
 import {postFavorite} from '../../store/api-actions.js';
 
 const Card = (props) => {
-  const {offer, getCommentsList, redirectToLogin, authStatus, onClick} = props;
+  const {offer, redirectToLogin, authStatus, onClick} = props;
   const starsCount = Math.round(RatingStars.MAX_WIDTH * +offer.rating / RatingStars.MAX_RATING).toString() + `%`;
 
   const handleClickOnBookmarks = () => {
@@ -64,6 +65,9 @@ const Card = (props) => {
 
 Card.propTypes = {
   offer: types.offer,
+  redirectToLogin: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  authStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

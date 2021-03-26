@@ -48,6 +48,7 @@ const Locations = (props) => {
 
 Locations.propTypes = {
   handleUserAnswer: PropTypes.func.isRequired,
+  city: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

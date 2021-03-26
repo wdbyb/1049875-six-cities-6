@@ -115,6 +115,10 @@ const CommentForm = (props) => {
 
 CommentForm.propTypes = {
   authStatus: PropTypes.string.isRequired,
+  offerID: PropTypes.number.isRequired,
+  onCommentSubmit: PropTypes.func.isRequired,
+  commentSuccess: PropTypes.func.isRequired,
+  clearCommentForm: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
