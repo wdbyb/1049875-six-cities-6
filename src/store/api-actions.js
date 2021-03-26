@@ -1,4 +1,4 @@
-import {ActionType, ActionCreator} from './action.js';
+import {ActionCreator} from './action.js';
 import {adaptDataToClient} from '../services/utils.js';
 import {AuthStatus} from '../const.js';
 
@@ -18,8 +18,6 @@ export const fetchFavoriteList = () => (next, _getState, api) => (
 
 export const postFavorite = (offerID, status) => (next, _getState, api) => (
   api.post(`/favorite/${offerID}/${status}`)
-    .then(({data}) => data.map(adaptDataToClient))
-    .then((data) => next(ActionCreator.getFavorite(data)))
     .catch(() => {})
 );
 

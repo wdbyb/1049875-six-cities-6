@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 const MainScreen = (props) => {
-  const {offers, city} = props;
+  const {offers, city, redirectToLogin} = props;
   const [isPopularOpened, setPopular] = useState(false);
 
   return (
@@ -66,7 +66,7 @@ const MainScreen = (props) => {
                     <li className="places__option" tabIndex="0">Top rated first</li>
                   </ul>
                 </form>
-                <OffersList offers={offers} />
+                <OffersList offers={offers} redirectToLogin={redirectToLogin} />
               </section>
               <div className="cities__right-section">
                 <Map />

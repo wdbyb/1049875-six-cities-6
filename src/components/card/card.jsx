@@ -1,11 +1,21 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import * as types from '../../props/offers.js';
-import {RatingStars} from '../../const.js';
+import {RatingStars, AuthStatus, FavoritePostStatus} from '../../const.js';
+import {connect} from 'react-redux';
+import {postFavorite} from '../../store/api-actions.js';
 
 const Card = (props) => {
-  const {offer, getCommentsList} = props;
+  const {offer, getCommentsList, redirectToLogin, authStatus, onClick} = props;
   const starsCount = Math.round(RatingStars.MAX_WIDTH * +offer.rating / RatingStars.MAX_RATING).toString() + `%`;
+
+  const handleClickOnBookmarks = () => {
+    if (authStatus === AuthStatus.NO_AUTH) {
+      redirectToLogin();
+    }
+
+    onClick(offer.id, FavoritePostStatus.ADD);
+  };
 
   return (
     <>
@@ -25,12 +35,14 @@ const Card = (props) => {
               <b className="place-card__price-value">&euro;{offer.price}</b>
               <span className="place-card__price-text">&#47;&nbsp;night</span>
             </div>
-            <button className="place-card__bookmark-button button" type="button">
+
+            <button className="place-card__bookmark-button button" type="button" onClick={handleClickOnBookmarks}>
               <svg className="place-card__bookmark-icon" width="18" height="19">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
               <span className="visually-hidden">To bookmarks</span>
             </button>
+
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
@@ -54,4 +66,14 @@ Card.propTypes = {
   offer: types.offer,
 };
 
-export default Card;
+const mapStateToProps = (state) => ({
+  authStatus: state.authStatus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onClick(offerID, status) {
+    dispatch(postFavorite(offerID, status));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

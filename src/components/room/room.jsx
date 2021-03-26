@@ -3,22 +3,20 @@ import PropTypes from 'prop-types';
 import CommentForm from '../comment-form/comment-form.jsx';
 import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
-import {RatingStars} from '../../const.js';
+import {RatingStars, AuthStatus, FavoritePostStatus} from '../../const.js';
 import Map from '../map/map.jsx';
 import {Link} from 'react-router-dom';
-import {fetchCommentsList} from "../../store/api-actions";
+import {fetchCommentsList, postFavorite} from "../../store/api-actions";
 
 
 const Room = (props) => {
-  const {offers, match, authStatus, authInfo, redirectToLogin, getCommentsList, currentOfferCommentsList = []} = props;
+  const {offers, match, authStatus, authInfo, redirectToLogin, getCommentsList, onBookmarksClick, currentOfferCommentsList = []} = props;
   const offer = offers.find((item) => item.id === parseInt(match.params.id, 10));
   const starsCount = Math.round(RatingStars.MAX_WIDTH * +offer.rating / RatingStars.MAX_RATING).toString() + `%`;
 
-  const handleClickFavoritesButton = (evt) => {
-    if (authStatus === `NO_AUTH`) {
-      redirectToLogin();
-    }
-  };
+  if (!offer) {
+    return null;
+  }
 
   useEffect(
       () => {
@@ -27,9 +25,13 @@ const Room = (props) => {
       [getCommentsList]
   );
 
-  if (!offer) {
-    return null;
-  }
+  const handleClickOnBookmarks = () => {
+    if (authStatus === AuthStatus.NO_AUTH) {
+      redirectToLogin();
+    }
+
+    onBookmarksClick(offer.id, FavoritePostStatus.ADD);
+  };
 
   return (
     <>
@@ -91,7 +93,7 @@ const Room = (props) => {
                   <h1 className="property__name">
                     {offer.title}
                   </h1>
-                  <button className="property__bookmark-button button" type="button" onClick={handleClickFavoritesButton}>
+                  <button className="property__bookmark-button button" type="button" onClick={handleClickOnBookmarks}>
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
@@ -307,12 +309,16 @@ const mapStateToProps = (state) => ({
   offers: state.offers,
   authStatus: state.authStatus,
   authInfo: state.authInfo,
-  currentOfferCommentsList: state.currentOfferCommentsList,
+  currentOfferCommentsList: state.currentOfferCommentsList
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCommentsList(offerID) {
     dispatch(fetchCommentsList(offerID));
+  },
+
+  onBookmarksClick(offerID, status) {
+    dispatch(postFavorite(offerID, status));
   }
 });
 

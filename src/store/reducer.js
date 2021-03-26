@@ -35,7 +35,6 @@ const reducer = (state = initialState, action) => {
         authStatus: action.payload
       };
     case ActionType.SAVE_DATA:
-      console.log(action.payload);
       return {
         ...state,
         user: action.payload
@@ -50,11 +49,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentOfferCommentsList: action.payload
       };
-      case ActionType.CLEAR_COMMENT_FORM:
-        return {
-          ...state,
-          clearCommentForm: true
-        };
+    case ActionType.CLEAR_COMMENT_FORM:
+      return {
+        ...state,
+        clearCommentForm: true
+      };
+    case ActionType.GET_FAVORITE:
+      return {
+        ...state,
+        favoriteOffers: action.payload
+      };
   }
 
   return state;
