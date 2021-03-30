@@ -178,7 +178,7 @@ const Room = (props) => {
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
-                {currentRoomOffersNearby.map((offer) => <Card key={offer.id} offer={offer} redirectToLogin={redirectToLogin} />)}
+                {currentRoomOffersNearby.map((item) => <Card key={item.id} offer={item} redirectToLogin={redirectToLogin} />)}
               </div>
             </section>
           </div>
@@ -200,6 +200,8 @@ Room.propTypes = {
   getCommentsList: PropTypes.func.isRequired,
   onBookmarksClick: PropTypes.func.isRequired,
   currentOfferCommentsList: PropTypes.array,
+  currentRoomOffersNearby: PropTypes.arrayOf(types.offer),
+  getOffersNearby: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

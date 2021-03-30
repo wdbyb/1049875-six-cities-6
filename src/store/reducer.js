@@ -47,7 +47,7 @@ const reducer = (state = initialState, action) => {
     case ActionType.SAVE_FAVORITE_OFFER:
       return {
         ...state,
-        filtredOffers: state.filtredOffers.map((offer) => +offer.id === +action.payload.id ? action.payload : item),
+        filtredOffers: state.filtredOffers.map((offer) => +offer.id === +action.payload.id ? action.payload : offer),
       };
     case ActionType.REQUIRED_AUTH:
       return {

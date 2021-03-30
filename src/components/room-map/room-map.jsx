@@ -8,13 +8,7 @@ import "leaflet/dist/leaflet.css";
 const RoomMap = (props) => {
   const {currentOffer, offersNearby, activeOfferID} = props;
   const mapRef = useRef();
-  const offers = [];
-
-  offers.push(currentOffer);
-
-  offersNearby.forEach((offer) => {
-    offers.push(offer);
-  });
+  const offers = [currentOffer, ...offersNearby];
 
   useEffect(() => {
     const cityLocation = offers[0].city.location;
@@ -63,9 +57,10 @@ const RoomMap = (props) => {
   );
 };
 
-Map.propTypes = {
-  offers: PropTypes.arrayOf(types.offer).isRequired,
-  activeCardID: PropTypes.number,
+RoomMap.propTypes = {
+  offersNearby: PropTypes.arrayOf(types.offer),
+  currentOffer: PropTypes.shape(types.offer).isRequired,
+  activeOfferID: PropTypes.number,
 };
 
 export {RoomMap};

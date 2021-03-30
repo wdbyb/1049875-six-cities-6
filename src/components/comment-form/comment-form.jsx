@@ -13,7 +13,8 @@ const CommentForm = (props) => {
   const {authStatus, offerID, onCommentSubmit, clearCommentForm, commentSuccess} = props;
   const [reviewComment, setReviewComment] = useState(``);
   const [reviewRating, setReviewRating] = useState(0);
-  const [isElementsDisabled, setElementsState] = useState(false);
+  const [isElementsDisabled, setElementsDisabled] = useState(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   if (authStatus === AuthStatus.NO_AUTH) {
     return null;
@@ -24,12 +25,12 @@ const CommentForm = (props) => {
         if (clearCommentForm) {
           setReviewComment(``);
           setReviewRating(0);
-          setElementsState(false);
+          setElementsDisabled(false);
           commentSuccess();
         }
         return () => {};
       },
-      [clearCommentForm, setReviewComment, setReviewRating, setElementsState]
+      [clearCommentForm, setReviewComment, setReviewRating, setElementsDisabled]
   );
 
   const handleChangeOnStars = (evt) => {
@@ -42,19 +43,24 @@ const CommentForm = (props) => {
   const handleChangeOnComment = (evt) => {
     const newComment = evt.target.value;
     setReviewComment(newComment);
+
+    if (reviewComment.length < 50 || reviewRating === 0) {
+      return setIsSubmitDisabled(true);
+    }
+
+    return setIsSubmitDisabled(false);
   };
 
   const handleCommentSubmit = (evt) => {
     evt.preventDefault();
 
     if (reviewComment.length < 50 || reviewRating === 0) {
-      alert(`To submit review please make sure to set rating and describe your stay with at least 50 characters, but no more than 300`);
-      return;
+      return setIsSubmitDisabled(true);
     }
 
-    setElementsState(true);
+    setElementsDisabled(true);
 
-    onCommentSubmit({
+    return onCommentSubmit({
       comment: reviewComment,
       rating: reviewRating,
       offerID
@@ -106,7 +112,7 @@ const CommentForm = (props) => {
           <p className="reviews__help">
             To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
           </p>
-          <button className="reviews__submit form__submit button" type="submit" disabled={isElementsDisabled}>Submit</button>
+          <button className="reviews__submit form__submit button" type="submit" disabled={isElementsDisabled || isSubmitDisabled}>Submit</button>
         </div>
       </form>
     </>

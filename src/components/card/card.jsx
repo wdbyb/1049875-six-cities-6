@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import * as types from '../../props/offers.js';
-import {RatingStars, AuthStatus, FavoritePostStatus} from '../../const.js';
+import {AuthStatus, FavoritePostStatus} from '../../const.js';
 import {connect} from 'react-redux';
 import {postFavorite} from '../../store/api-actions.js';
 import {ActionCreator} from '../../store/action.js';
 
 const Card = (props) => {
   const {offer, redirectToLogin, authStatus, onClick, onMouseEnter} = props;
-  // const [isClickedOnFav, setIsClickedOnFav] = useState(offer.isFavorite);
   const starsCount = `${Math.round(+offer.rating) * 20}%`;
 
   const handleClickOnBookmarks = () => {
@@ -18,12 +17,10 @@ const Card = (props) => {
     }
 
     if (!offer.isFavorite) {
-      // setIsClickedOnFav(!isClickedOnFav);
       onClick(offer.id, FavoritePostStatus.ADD);
     }
 
     if (offer.isFavorite) {
-      // setIsClickedOnFav(!isClickedOnFav);
       onClick(offer.id, FavoritePostStatus.DELETE);
     }
   };
