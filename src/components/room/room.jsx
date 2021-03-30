@@ -1,19 +1,21 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import CommentForm from '../comment-form/comment-form.jsx';
 import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
 import {RatingStars, AuthStatus, FavoritePostStatus} from '../../const.js';
-import Map from '../map/map.jsx';
-import {fetchCommentsList, postFavorite} from "../../store/api-actions";
+import RoomMap from '../room-map/room-map.jsx';
+import {fetchCommentsList, postFavorite, fetchOffersNearby} from "../../store/api-actions";
 import Header from '../header/header.jsx';
 import Icons from '../icons/icons.jsx';
+import Card from '../card/card.jsx';
 
 
 const Room = (props) => {
-  const {offers, match, authStatus, redirectToLogin, getCommentsList, onBookmarksClick, currentOfferCommentsList = []} = props;
+  const {offers, match, authStatus, redirectToLogin, getCommentsList, onBookmarksClick, currentOfferCommentsList = [], getOffersNearby, currentRoomOffersNearby} = props;
   const offer = offers.find((item) => item.id === parseInt(match.params.id, 10));
-  const starsCount = Math.round(RatingStars.MAX_WIDTH * +offer.rating / RatingStars.MAX_RATING).toString() + `%`;
+  const [isClickedOnFav, setIsClickedOnFav] = useState(offer.isFavorite);
+  const starsCount = `${Math.round(+offer.rating) * 20}%`;
 
   if (!offer) {
     return null;
@@ -22,8 +24,9 @@ const Room = (props) => {
   useEffect(
       () => {
         getCommentsList(offer.id);
+        getOffersNearby(offer.id);
       },
-      [getCommentsList]
+      [getCommentsList, getOffersNearby]
   );
 
   const handleClickOnBookmarks = () => {
@@ -31,7 +34,15 @@ const Room = (props) => {
       redirectToLogin();
     }
 
-    onBookmarksClick(offer.id, FavoritePostStatus.ADD);
+    if (!isClickedOnFav) {
+      setIsClickedOnFav(!isClickedOnFav);
+      onBookmarksClick(offer.id, FavoritePostStatus.ADD);
+    }
+
+    if (isClickedOnFav) {
+      setIsClickedOnFav(!isClickedOnFav);
+      onBookmarksClick(offer.id, FavoritePostStatus.DELETE);
+    }
   };
 
   return (
@@ -68,7 +79,7 @@ const Room = (props) => {
                   <h1 className="property__name">
                     {offer.title}
                   </h1>
-                  <button className="property__bookmark-button button" type="button" onClick={handleClickOnBookmarks}>
+                  <button className={`property__bookmark-button button ${isClickedOnFav ? `property__bookmark-button--active` : ``}`} type="button" onClick={handleClickOnBookmarks}>
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
@@ -160,108 +171,14 @@ const Room = (props) => {
               </div>
             </div>
             <section className="property__map map">
-              <Map />
+              <RoomMap currentOffer={offer} offersNearby={currentRoomOffersNearby} activeOfferID={offer.id} />
             </section>
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
-                <article className="near-places__card place-card">
-                  <div className="near-places__image-wrapper place-card__image-wrapper">
-                    <a href="#">
-                      <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place image" />
-                    </a>
-                  </div>
-                  <div className="place-card__info">
-                    <div className="place-card__price-wrapper">
-                      <div className="place-card__price">
-                        <b className="place-card__price-value">&euro;80</b>
-                        <span className="place-card__price-text">&#47;&nbsp;night</span>
-                      </div>
-                      <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-                        <svg className="place-card__bookmark-icon" width="18" height="19">
-                          <use xlinkHref="#icon-bookmark"></use>
-                        </svg>
-                        <span className="visually-hidden">In bookmarks</span>
-                      </button>
-                    </div>
-                    <div className="place-card__rating rating">
-                      <div className="place-card__stars rating__stars">
-                        <span style={{width: `80%`}}></span>
-                        <span className="visually-hidden">Rating</span>
-                      </div>
-                    </div>
-                    <h2 className="place-card__name">
-                      <a href="#">Wood and stone place</a>
-                    </h2>
-                    <p className="place-card__type">Private room</p>
-                  </div>
-                </article>
-
-                <article className="near-places__card place-card">
-                  <div className="near-places__image-wrapper place-card__image-wrapper">
-                    <a href="#">
-                      <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place image" />
-                    </a>
-                  </div>
-                  <div className="place-card__info">
-                    <div className="place-card__price-wrapper">
-                      <div className="place-card__price">
-                        <b className="place-card__price-value">&euro;132</b>
-                        <span className="place-card__price-text">&#47;&nbsp;night</span>
-                      </div>
-                      <button className="place-card__bookmark-button button" type="button">
-                        <svg className="place-card__bookmark-icon" width="18" height="19">
-                          <use xlinkHref="#icon-bookmark"></use>
-                        </svg>
-                        <span className="visually-hidden">To bookmarks</span>
-                      </button>
-                    </div>
-                    <div className="place-card__rating rating">
-                      <div className="place-card__stars rating__stars">
-                        <span style={{width: `80%`}}></span>
-                        <span className="visually-hidden">Rating</span>
-                      </div>
-                    </div>
-                    <h2 className="place-card__name">
-                      <a href="#">Canal View Prinsengracht</a>
-                    </h2>
-                    <p className="place-card__type">Apartment</p>
-                  </div>
-                </article>
-
-                <article className="near-places__card place-card">
-                  <div className="near-places__image-wrapper place-card__image-wrapper">
-                    <a href="#">
-                      <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place image" />
-                    </a>
-                  </div>
-                  <div className="place-card__info">
-                    <div className="place-card__price-wrapper">
-                      <div className="place-card__price">
-                        <b className="place-card__price-value">&euro;180</b>
-                        <span className="place-card__price-text">&#47;&nbsp;night</span>
-                      </div>
-                      <button className="place-card__bookmark-button button" type="button">
-                        <svg className="place-card__bookmark-icon" width="18" height="19">
-                          <use xlinkHref="#icon-bookmark"></use>
-                        </svg>
-                        <span className="visually-hidden">To bookmarks</span>
-                      </button>
-                    </div>
-                    <div className="place-card__rating rating">
-                      <div className="place-card__stars rating__stars">
-                        <span style={{width: `100%`}}></span>
-                        <span className="visually-hidden">Rating</span>
-                      </div>
-                    </div>
-                    <h2 className="place-card__name">
-                      <a href="#">Nice, cozy, warm big bed apartment</a>
-                    </h2>
-                    <p className="place-card__type">Apartment</p>
-                  </div>
-                </article>
+                {currentRoomOffersNearby.map((offer) => <Card key={offer.id} offer={offer} redirectToLogin={redirectToLogin} />)}
               </div>
             </section>
           </div>
@@ -288,14 +205,17 @@ Room.propTypes = {
 const mapStateToProps = (state) => ({
   offers: state.offers,
   authStatus: state.authStatus,
-  currentOfferCommentsList: state.currentOfferCommentsList
+  currentOfferCommentsList: state.currentOfferCommentsList,
+  currentRoomOffersNearby: state.currentRoomOffersNearby,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCommentsList(offerID) {
     dispatch(fetchCommentsList(offerID));
   },
-
+  getOffersNearby(offerID) {
+    dispatch(fetchOffersNearby(offerID));
+  },
   onBookmarksClick(offerID, status) {
     dispatch(postFavorite(offerID, status));
   }

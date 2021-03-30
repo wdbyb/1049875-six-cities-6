@@ -12,8 +12,9 @@ const App = () => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/" render={({history}) => (
           <MainScreen redirectToLogin={() => history.push(`/login`)} />
+        )}>
         </Route>
         <Route exact path="/login" render={({history}) => (
           <Login redirectToRoot={() => history.push(`/`)} />

@@ -76,7 +76,7 @@ const Favorites = (props) => {
                                   </div>
                                 </div>
                                 <h2 className="place-card__name">
-                                  <a href="#">{offer.title}</a>
+                                  <Link href="#" to={`offer/${offer.id}`}>{offer.title}</Link>
                                 </h2>
                                 <p className="place-card__type">{offer.type.charAt(0).toUpperCase() + offer.type.slice(1)}</p>
                               </div>

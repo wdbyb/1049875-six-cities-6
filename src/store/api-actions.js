@@ -18,12 +18,21 @@ export const fetchFavoriteList = () => (next, _getState, api) => (
 
 export const postFavorite = (offerID, status) => (next, _getState, api) => (
   api.post(`/favorite/${offerID}/${status}`)
+    .then(({data}) => adaptDataToClient(data))
+    .then((offer) => next(ActionCreator.getFavoriteOffer(offer)))
     .catch(() => {})
 );
 
 export const fetchCommentsList = (offerID) => (next, _getState, api) => (
   api.get(`/comments/${offerID}`)
     .then(({data}) => next(ActionCreator.getComments(data)))
+    .catch(() => {})
+);
+
+export const fetchOffersNearby = (offerID) => (next, _getState, api) => (
+  api.get(`/hotels/${offerID}/nearby`)
+    .then(({data}) => data.map(adaptDataToClient))
+    .then((data) => next(ActionCreator.getOffersNearby(data)))
     .catch(() => {})
 );
 

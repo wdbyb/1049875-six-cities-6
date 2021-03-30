@@ -7,7 +7,9 @@ export const ActionType = {
   AUTH_INFO: `AUTH_INFO`,
   CLEAR_COMMENT_FORM: `CLEAR_COMMENT_FORM`,
   GET_FAVORITE: `GET_FAVORITE`,
-  POST_FAVORITE: `POST_FAVORITE`
+  MOUSEOVER_CARD: `MOUSEOVER_CARD`,
+  SAVE_FAVORITE_OFFER: `SAVE_FAVORITE_OFFER`,
+  GET_OFFERS_NEARBY: `GET_OFFERS_NEARBY`
 };
 
 export const ActionCreator = {
@@ -17,6 +19,18 @@ export const ActionCreator = {
   changeCity: (city) => ({
     type: ActionType.CHANGE_CITY,
     payload: city
+  }),
+  getOffersNearby: (offers) => ({
+    type: ActionType.GET_OFFERS_NEARBY,
+    payload: offers
+  }),
+  getFavoriteOffer: (offer) => ({
+    type: ActionType.SAVE_FAVORITE_OFFER,
+    payload: offer
+  }),
+  changeActivePin: (offerID) => ({
+    type: ActionType.MOUSEOVER_CARD,
+    payload: offerID
   }),
   getOffers: (data) => ({
     type: ActionType.LOAD_OFFERS,

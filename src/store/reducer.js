@@ -9,18 +9,33 @@ const initialState = {
   offers,
   clearCommentForm: false,
   authStatus: AuthStatus.NO_AUTH,
+  authInfo: {},
   city: DEFAULT_CITY,
   isDataLoaded: false,
-  filtredOffers: offers.filter((offer) => offer.city.name === DEFAULT_CITY)
+  filtredOffers: offers.filter((offer) => offer.city.name === DEFAULT_CITY),
+  currentOfferCommentsList: [],
+  currentRoomOffersNearby: [],
+  favoriteOffers: [],
+  currentMouseOverCardID: null,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case ActionType.MOUSEOVER_CARD:
+      return {
+        ...state,
+        currentMouseOverCardID: action.payload
+      };
     case ActionType.CHANGE_CITY:
       return {
         ...state,
         city: action.payload,
         filtredOffers: state.offers.filter((offer) => offer.city.name === action.payload)
+      };
+    case ActionType.GET_OFFERS_NEARBY:
+      return {
+        ...state,
+        currentRoomOffersNearby: action.payload,
       };
     case ActionType.LOAD_OFFERS:
       return {
@@ -28,6 +43,11 @@ const reducer = (state = initialState, action) => {
         offers: action.payload,
         filtredOffers: action.payload.filter((offer) => offer.city.name === DEFAULT_CITY),
         isDataLoaded: true
+      };
+    case ActionType.SAVE_FAVORITE_OFFER:
+      return {
+        ...state,
+        filtredOffers: state.filtredOffers.map((offer) => +offer.id === +action.payload.id ? action.payload : item),
       };
     case ActionType.REQUIRED_AUTH:
       return {
@@ -37,7 +57,7 @@ const reducer = (state = initialState, action) => {
     case ActionType.SAVE_DATA:
       return {
         ...state,
-        user: action.payload
+        authInfo: action.payload
       };
     case ActionType.AUTH_INFO:
       return {

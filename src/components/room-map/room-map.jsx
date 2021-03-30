@@ -5,12 +5,20 @@ import * as types from '../../props/offers.js';
 import {connect} from 'react-redux';
 import "leaflet/dist/leaflet.css";
 
-const Map = (props) => {
-  const {offers, activeCardID} = props;
-  const cityLocation = offers[0].city.location;
+const RoomMap = (props) => {
+  const {currentOffer, offersNearby, activeOfferID} = props;
   const mapRef = useRef();
+  const offers = [];
+
+  offers.push(currentOffer);
+
+  offersNearby.forEach((offer) => {
+    offers.push(offer);
+  });
 
   useEffect(() => {
+    const cityLocation = offers[0].city.location;
+
     mapRef.current = leaflet.map(`map`, {
       center: {
         lat: cityLocation.latitude,
@@ -28,7 +36,7 @@ const Map = (props) => {
       .addTo(mapRef.current);
 
     offers.forEach((offer) => {
-      const pinUrl = activeCardID === offer.id ? `img/pin-active.svg` : `img/pin.svg`;
+      const pinUrl = activeOfferID === offer.id ? `img/pin-active.svg` : `img/pin.svg`;
       const icon = leaflet.icon({
         iconUrl: pinUrl,
         iconSize: [30, 30]
@@ -48,10 +56,10 @@ const Map = (props) => {
     return () => {
       mapRef.current.remove();
     };
-  }, [offers, activeCardID]);
+  }, [offers, activeOfferID]);
 
   return (
-    <section className="cities__map map" id="map" ref={mapRef}></section>
+    <section className="property__map map" id="map" ref={mapRef}></section>
   );
 };
 
@@ -60,10 +68,5 @@ Map.propTypes = {
   activeCardID: PropTypes.number,
 };
 
-const mapStateToProps = (state) => ({
-  offers: state.filtredOffers,
-  activeCardID: state.currentMouseOverCardID,
-});
-
-export {Map};
-export default connect(mapStateToProps, null)(Map);
+export {RoomMap};
+export default connect()(RoomMap);
