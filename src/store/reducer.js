@@ -32,6 +32,11 @@ const reducer = (state = initialState, action) => {
         city: action.payload,
         filtredOffers: state.offers.filter((offer) => offer.city.name === action.payload)
       };
+    case ActionType.SORT_OFFERS:
+      return {
+        ...state,
+        filtredOffers: state.filtredOffers.sort((a, b) => b.price - a.price)
+      };
     case ActionType.GET_OFFERS_NEARBY:
       return {
         ...state,

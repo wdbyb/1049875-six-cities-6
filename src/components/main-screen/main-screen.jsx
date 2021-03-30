@@ -7,10 +7,19 @@ import Locations from '../locations/locations.jsx';
 import {connect} from 'react-redux';
 import Header from '../header/header.jsx';
 import Icons from '../icons/icons.jsx';
+import {ActionCreator} from '../../store/action.js';
 
 const MainScreen = (props) => {
-  const {offers, city, redirectToLogin} = props;
+  const {offers, city, redirectToLogin, foo} = props;
   const [isPopularOpened, setPopular] = useState(false);
+
+  console.log(offers);
+
+  const handleClickendo = () => {
+    foo();
+  };
+
+  const handleOpenSort = () => setPopular(!isPopularOpened);
 
   return (
     <>
@@ -31,7 +40,7 @@ const MainScreen = (props) => {
                 <b className="places__found">{offers.length} places to stay in {city}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
-                  <span className="places__sorting-type" tabIndex="0" onClick={() => setPopular(!isPopularOpened)}>
+                  <span className="places__sorting-type" tabIndex="0" onClick={handleOpenSort}>
                     Popular
                     <svg className="places__sorting-arrow" width="7" height="4">
                       <use xlinkHref="#icon-arrow-select"></use>
@@ -39,7 +48,7 @@ const MainScreen = (props) => {
                   </span>
                   <ul className={`places__options places__options--custom ${isPopularOpened ? `places__options--opened` : ``}`}>
                     <li className="places__option places__option--active" tabIndex="0">Popular</li>
-                    <li className="places__option" tabIndex="0">Price: low to high</li>
+                    <li className="places__option" tabIndex="0" onClick={handleClickendo}>Price: low to high</li>
                     <li className="places__option" tabIndex="0">Price: high to low</li>
                     <li className="places__option" tabIndex="0">Top rated first</li>
                   </ul>
@@ -68,5 +77,11 @@ const mapStateToProps = (state) => ({
   city: state.city
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  foo() {
+    dispatch(ActionCreator.sortOffersPlease());
+  }
+});
+
 export {MainScreen};
-export default connect(mapStateToProps)(MainScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

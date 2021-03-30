@@ -9,10 +9,14 @@ export const ActionType = {
   GET_FAVORITE: `GET_FAVORITE`,
   MOUSEOVER_CARD: `MOUSEOVER_CARD`,
   SAVE_FAVORITE_OFFER: `SAVE_FAVORITE_OFFER`,
-  GET_OFFERS_NEARBY: `GET_OFFERS_NEARBY`
+  GET_OFFERS_NEARBY: `GET_OFFERS_NEARBY`,
+  SORT_OFFERS: `SORT_OFFERS`
 };
 
 export const ActionCreator = {
+  sortOffersPlease: () => ({
+    type: ActionType.SORT_OFFERS
+  }),
   clearCommentForm: () => ({
     type: ActionType.CLEAR_COMMENT_FORM,
   }),
