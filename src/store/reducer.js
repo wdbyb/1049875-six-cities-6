@@ -32,10 +32,25 @@ const reducer = (state = initialState, action) => {
         city: action.payload,
         filtredOffers: state.offers.filter((offer) => offer.city.name === action.payload)
       };
-    case ActionType.SORT_OFFERS:
+    case ActionType.SORT_OFFERS_HIGH:
       return {
         ...state,
         filtredOffers: state.filtredOffers.sort((a, b) => b.price - a.price)
+      };
+    case ActionType.SORT_OFFERS_LOW:
+      return {
+        ...state,
+        filtredOffers: state.filtredOffers.sort((a, b) => a.price - b.price)
+      };
+    case ActionType.SORT_OFFERS_TOP_RATED:
+      return {
+        ...state,
+        filtredOffers: state.filtredOffers.sort((a, b) => b.rating - a.rating)
+      };
+    case ActionType.SORT_OFFERS_POPULAR:
+      return {
+        ...state,
+        filtredOffers: state.offers.filter((offer) => offer.city.name === state.city)
       };
     case ActionType.GET_OFFERS_NEARBY:
       return {
