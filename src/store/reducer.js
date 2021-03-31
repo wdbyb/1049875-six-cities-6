@@ -1,5 +1,5 @@
 import {ActionType} from './action.js';
-import {AuthStatus} from '../const.js';
+import {AuthStatus, sortTypes} from '../const.js';
 
 const DEFAULT_CITY = `Paris`;
 
@@ -12,11 +12,12 @@ const initialState = {
   authInfo: {},
   city: DEFAULT_CITY,
   isDataLoaded: false,
-  filtredOffers: offers.filter((offer) => offer.city.name === DEFAULT_CITY),
+  filteredOffers: offers.filter((offer) => offer.city.name === DEFAULT_CITY),
   currentOfferCommentsList: [],
   currentRoomOffersNearby: [],
   favoriteOffers: [],
   currentMouseOverCardID: null,
+  sortTypeActive: `Popular`,
 };
 
 const reducer = (state = initialState, action) => {
@@ -30,27 +31,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         city: action.payload,
-        filtredOffers: state.offers.filter((offer) => offer.city.name === action.payload)
+        filteredOffers: state.offers.filter((offer) => offer.city.name === action.payload)
       };
-    case ActionType.SORT_OFFERS_HIGH:
+    case ActionType.SORT_OFFERS:
       return {
         ...state,
-        filtredOffers: state.filtredOffers.sort((a, b) => b.price - a.price)
-      };
-    case ActionType.SORT_OFFERS_LOW:
-      return {
-        ...state,
-        filtredOffers: state.filtredOffers.sort((a, b) => a.price - b.price)
-      };
-    case ActionType.SORT_OFFERS_TOP_RATED:
-      return {
-        ...state,
-        filtredOffers: state.filtredOffers.sort((a, b) => b.rating - a.rating)
-      };
-    case ActionType.SORT_OFFERS_POPULAR:
-      return {
-        ...state,
-        filtredOffers: state.offers.filter((offer) => offer.city.name === state.city)
+        filteredOffers: state.filteredOffers.sort(sortTypes[action.payload]),
+        sortTypeActive: action.payload,
       };
     case ActionType.GET_OFFERS_NEARBY:
       return {
@@ -61,13 +48,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offers: action.payload,
-        filtredOffers: action.payload.filter((offer) => offer.city.name === DEFAULT_CITY),
+        filteredOffers: action.payload.filter((offer) => offer.city.name === DEFAULT_CITY),
         isDataLoaded: true
       };
     case ActionType.SAVE_FAVORITE_OFFER:
       return {
         ...state,
-        filtredOffers: state.filtredOffers.map((offer) => +offer.id === +action.payload.id ? action.payload : offer),
+        filteredOffers: state.filteredOffers.map((offer) => +offer.id === +action.payload.id ? action.payload : offer),
       };
     case ActionType.REQUIRED_AUTH:
       return {

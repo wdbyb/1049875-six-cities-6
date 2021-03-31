@@ -61,7 +61,7 @@ Map.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.filtredOffers,
+  offers: state.filteredOffers,
   activeCardID: state.currentMouseOverCardID,
 });
 

@@ -10,24 +10,13 @@ export const ActionType = {
   MOUSEOVER_CARD: `MOUSEOVER_CARD`,
   SAVE_FAVORITE_OFFER: `SAVE_FAVORITE_OFFER`,
   GET_OFFERS_NEARBY: `GET_OFFERS_NEARBY`,
-  SORT_OFFERS_HIGH: `SORT_OFFERS_HIGH`,
-  SORT_OFFERS_LOW: `SORT_OFFERS_LOW`,
-  SORT_OFFERS_TOP_RATED: `SORT_OFFERS_TOP_RATED`,
-  SORT_OFFERS_POPULAR: `SORT_OFFERS_POPULAR`
+  SORT_OFFERS: `SORT_OFFERS`
 };
 
 export const ActionCreator = {
-  sortOffersHigh: () => ({
-    type: ActionType.SORT_OFFERS_HIGH
-  }),
-  sortOffersPopular: () => ({
-    type: ActionType.SORT_OFFERS_POPULAR
-  }),
-  sortOffersTopRated: () => ({
-    type: ActionType.SORT_OFFERS_TOP_RATED
-  }),
-  sortOffersLow: () => ({
-    type: ActionType.SORT_OFFERS_LOW
+  sortOffers: (sortValue) => ({
+    type: ActionType.SORT_OFFERS,
+    payload: sortValue
   }),
   clearCommentForm: () => ({
     type: ActionType.CLEAR_COMMENT_FORM,

@@ -8,60 +8,14 @@ import {connect} from 'react-redux';
 import Header from '../header/header.jsx';
 import Icons from '../icons/icons.jsx';
 import {ActionCreator} from '../../store/action.js';
+import {SortTypesKey} from '../../const.js';
 
 const MainScreen = (props) => {
-  const {offers, city, redirectToLogin, onHighToLow, onLowToHigh, onTopRated, onPopular} = props;
+  const {offers, city, redirectToLogin, onChangeSortType, sortTypeActive} = props;
   const [isPopularOpened, setPopular] = useState(false);
-  const [sortType, setSortType] = useState({
-    isPopular: true,
-    isLowToHigh: false,
-    isHighToLow: false,
-    isTopRated: false,
-    currentSort: `Popular`,
-  });
 
-  const handleClickOnPopular = () => {
-    setSortType(() => ({
-      isLowToHigh: false,
-      isHighToLow: false,
-      isTopRated: false,
-      isPopular: true,
-      currentSort: `Popular`
-    }));
-    onPopular();
-  };
-
-  const handleClickOnLowToHigh = () => {
-    setSortType(() => ({
-      isPopular: false,
-      isLowToHigh: true,
-      isHighToLow: false,
-      isTopRated: false,
-      currentSort: `Price: low to high`
-    }));
-    onLowToHigh();
-  };
-
-  const handleClickOnHighToLow = () => {
-    setSortType(() => ({
-      isPopular: false,
-      isLowToHigh: false,
-      isHighToLow: true,
-      isTopRated: false,
-      currentSort: `Price: high to low`
-    }));
-    onHighToLow();
-  };
-
-  const handleClickOnTopRated = () => {
-    setSortType(() => ({
-      isPopular: false,
-      isLowToHigh: false,
-      isHighToLow: false,
-      isTopRated: true,
-      currentSort: `Top rated first`
-    }));
-    onTopRated();
+  const handleChangeSortType = (evt) => {
+    onChangeSortType(evt.target.textContent);
   };
 
   const handleOpenSort = () => setPopular(!isPopularOpened);
@@ -86,16 +40,16 @@ const MainScreen = (props) => {
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption" onClick={handleOpenSort}>Sort by</span>
                   <span className="places__sorting-type" tabIndex="0" onClick={handleOpenSort}>
-                    {sortType.currentSort}
+                    {sortTypeActive}
                     <svg className="places__sorting-arrow" width="7" height="4">
                       <use xlinkHref="#icon-arrow-select"></use>
                     </svg>
                   </span>
                   <ul className={`places__options places__options--custom ${isPopularOpened ? `places__options--opened` : ``}`}>
-                    <li className={`places__option ${sortType.isPopular ? `places__option--active` : ``}`} tabIndex="0" onClick={handleClickOnPopular}>Popular</li>
-                    <li className={`places__option ${sortType.isLowToHigh ? `places__option--active` : ``}`} tabIndex="0" onClick={handleClickOnLowToHigh}>Price: low to high</li>
-                    <li className={`places__option ${sortType.isHighToLow ? `places__option--active` : ``}`} tabIndex="0" onClick={handleClickOnHighToLow}>Price: high to low</li>
-                    <li className={`places__option ${sortType.isTopRated ? `places__option--active` : ``}`} tabIndex="0" onClick={handleClickOnTopRated}>Top rated first</li>
+                    <li className={`places__option ${sortTypeActive === SortTypesKey.POPULAR ? `places__option--active` : ``}`} tabIndex="0" onClick={handleChangeSortType}>{SortTypesKey.POPULAR}</li>
+                    <li className={`places__option ${sortTypeActive === SortTypesKey.LOW_TO_HIGH ? `places__option--active` : ``}`} tabIndex="0" onClick={handleChangeSortType}>{SortTypesKey.LOW_TO_HIGH}</li>
+                    <li className={`places__option ${sortTypeActive === SortTypesKey.HIGH_TO_LOW ? `places__option--active` : ``}`} tabIndex="0" onClick={handleChangeSortType}>{SortTypesKey.HIGH_TO_LOW}</li>
+                    <li className={`places__option ${sortTypeActive === SortTypesKey.TOP_RATED ? `places__option--active` : ``}`} tabIndex="0" onClick={handleChangeSortType}>{SortTypesKey.TOP_RATED}</li>
                   </ul>
                 </form>
                 <OffersList offers={offers} redirectToLogin={redirectToLogin} />
@@ -115,29 +69,19 @@ MainScreen.propTypes = {
   offers: PropTypes.arrayOf(types.offer).isRequired,
   city: PropTypes.string.isRequired,
   redirectToLogin: PropTypes.func.isRequired,
-  onHighToLow: PropTypes.func.isRequired,
-  onPopular: PropTypes.func.isRequired,
-  onLowToHigh: PropTypes.func.isRequired,
-  onTopRated: PropTypes.func.isRequired,
+  onChangeSortType: PropTypes.func.isRequired,
+  sortTypeActive: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.filtredOffers,
-  city: state.city
+  offers: state.filteredOffers,
+  city: state.city,
+  sortTypeActive: state.sortTypeActive,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onHighToLow() {
-    dispatch(ActionCreator.sortOffersHigh());
-  },
-  onPopular() {
-    dispatch(ActionCreator.sortOffersPopular());
-  },
-  onLowToHigh() {
-    dispatch(ActionCreator.sortOffersLow());
-  },
-  onTopRated() {
-    dispatch(ActionCreator.sortOffersTopRated());
+  onChangeSortType(sortValue) {
+    dispatch(ActionCreator.sortOffers(sortValue));
   }
 });
 

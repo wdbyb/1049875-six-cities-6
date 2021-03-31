@@ -11,7 +11,7 @@ const RoomMap = (props) => {
   const offers = [currentOffer, ...offersNearby];
 
   useEffect(() => {
-    const cityLocation = offers[0].city.location;
+    const cityLocation = currentOffer.city.location;
 
     mapRef.current = leaflet.map(`map`, {
       center: {
@@ -59,7 +59,7 @@ const RoomMap = (props) => {
 
 RoomMap.propTypes = {
   offersNearby: PropTypes.arrayOf(types.offer),
-  currentOffer: PropTypes.shape(types.offer).isRequired,
+  currentOffer: PropTypes.object,
   activeOfferID: PropTypes.number,
 };
 
