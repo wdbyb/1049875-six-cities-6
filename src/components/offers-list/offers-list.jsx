@@ -4,17 +4,18 @@ import PropTypes from 'prop-types';
 import * as types from '../../props/offers.js';
 
 const OffersList = (props) => {
-  const {offers} = props;
+  const {offers, redirectToLogin} = props;
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer) => <Card key={offer.id} offer={offer}/>)}
+      {offers.map((offer) => <Card key={offer.id} offer={offer} redirectToLogin={redirectToLogin} />)}
     </div>
   );
 };
 
 OffersList.propTypes = {
   offers: PropTypes.arrayOf(types.offer).isRequired,
+  redirectToLogin: PropTypes.func.isRequired,
 };
 
 export default OffersList;

@@ -12,8 +12,9 @@ const App = () => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route exact path="/">
-          <MainScreen />
+        <Route exact path="/" render={({history}) => (
+          <MainScreen redirectToLogin={() => history.push(`/login`)} />
+        )}>
         </Route>
         <Route exact path="/login" render={({history}) => (
           <Login redirectToRoot={() => history.push(`/`)} />
@@ -24,7 +25,9 @@ const App = () => {
           render={() => <Favorites />}
         >
         </PrivateRoute>
-        <Route exact path="/offer/:id" render={(serviceProps) => <Room {...serviceProps} />}>
+        <Route exact path="/offer/:id" render={(serviceProps) => (
+          <Room {...serviceProps} redirectToLogin={() => serviceProps.history.push(`/login`)} />
+        )}>
         </Route>
         <Route>
           <NotFoundScreen />
